@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ejemplo de JavaScript en HTML</title>
+</head>
+<body>
+    <h1>Hola, Mundo!</h1>
+    <div id="resultado"></div>
+    <img id="myImage" src="http://bodegasalameda.ddns.net/models/img.jpg" alt="Imagen con rostros">
+    <canvas id="myCanvas"></canvas>
+    
+
+    <!-- Aquí colocamos el código JavaScript -->
+    <script src="https://cdn.jsdelivr.net/npm/face-api.js/dist/face-api.min.js"></script>
+    <script>
+        // Código JavaScript
+
+Promise.all([
+  faceapi.nets.tinyFaceDetector.loadFromUri('http://bodegasalameda.ddns.net/models'),
+  faceapi.nets.faceRecognitionNet.loadFromUri('http://bodegasalameda.ddns.net/models'),
+  faceapi.nets.faceLandmark68Net.loadFromUri('http://bodegasalameda.ddns.net/models'),
+  faceapi.nets.ssdMobilenetv1.loadFromUri('http://bodegasalameda.ddns.net/models'),
+  faceapi.nets.faceExpressionNet.loadFromUri('http://bodegasalameda.ddns.net/models')
+]).then(detectFaces, function(error) {
+  console.error('Error loading models:', error);
+  document.getElementById('resultado').innerText='error 0 '+error;
+});
+
+const image = document.getElementById('myImage');
+const canvas = document.getElementById('myCanvas');
+
+async function detectFaces() {
+  const detections = await faceapi.detectAllFaces(image, new faceapi.TinyFaceDetectorOptions())
+    .withFaceLandmarks()
+    .withFaceExpressions();
+
+  const displaySize = { width: image.width, height: image.height };
+  faceapi.matchDimensions(canvas, displaySize);
+
+  const resizedDetections = faceapi.resizeResults(detections, displaySize);
+  faceapi.draw.drawDetections(canvas, resizedDetections);
+  faceapi.draw.drawFaceLandmarks(canvas, resizedDetections);
+  faceapi.draw.drawFaceExpressions(canvas, resizedDetections);
+}
+
+detectFaces();
+//alert("detectFaces();");
+
+
+</script>
+
+    <p>Este es un ejemplo de cómo ejecutar JavaScript dentro de un archivo HTML.</p>
+</body>
+</html>
