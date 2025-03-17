@@ -18,11 +18,11 @@
         // Código JavaScript
 
 Promise.all([
-  faceapi.nets.tinyFaceDetector.loadFromUri('http://bodegasalameda.ddns.net/models'),
-  faceapi.nets.faceRecognitionNet.loadFromUri('http://bodegasalameda.ddns.net/models'),
-  faceapi.nets.faceLandmark68Net.loadFromUri('http://bodegasalameda.ddns.net/models'),
-  faceapi.nets.ssdMobilenetv1.loadFromUri('http://bodegasalameda.ddns.net/models'),
-  faceapi.nets.faceExpressionNet.loadFromUri('http://bodegasalameda.ddns.net/models')
+  faceapi.nets.tinyFaceDetector.loadFromUri('/models'),
+  faceapi.nets.faceRecognitionNet.loadFromUri('/models'),
+  faceapi.nets.faceLandmark68Net.loadFromUri('/models'),
+  faceapi.nets.ssdMobilenetv1.loadFromUri('/models'),
+  faceapi.nets.faceExpressionNet.loadFromUri('/models')
 ]).then(detectFaces, function(error) {
   console.error('Error loading models:', error);
   document.getElementById('resultado').innerText='error 0 '+error;
